@@ -46,6 +46,13 @@ func (c *Client) readMessages() {
 		return
 	}
 
+	// Setting a limit for reading a message from the backend.
+	// SetReadLimit sets the maximum size in bytes for how large the message can be.
+	// This is tricky because it involves calculating the bytes of each message and making sure,
+	// that they have exceeded the read limit.
+	// Here we use a hard limit but it could be more dynamic.
+	c.connection.SetReadLimit(512)
+
 	// SetPongHandler applies a certain handler when a pong is triggered.
 	c.connection.SetPongHandler(c.pongHandler)
 
